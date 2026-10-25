@@ -1,6 +1,9 @@
 import fs from 'node:fs'; import path from 'node:path';
 const noindex=/\bnoindex\s*:\s*true\b/.test(fs.readFileSync('src/data/site.ts','utf8'));
-const dist='dist';
+// Astro's static output uses dist/, while the Cloudflare adapter writes public
+// assets to dist/client/. Support both so post-build checks work in either target.
+const dist=['dist/client','dist'].find((candidate)=>fs.existsSync(path.join(candidate,'robots.txt')));
+if(!dist)throw new Error('Could not find robots.txt in dist/ or dist/client/. Check the Astro output directory.');
 if(noindex){for(const file of fs.readdirSync(dist).filter((name)=>/^sitemap(?:-index)?(?:\d+)?\.xml$/.test(name)))fs.rmSync(path.join(dist,file),{force:true});for(const file of fs.readdirSync(dist).filter((name)=>name.startsWith('sitemap-')))fs.rmSync(path.join(dist,file),{force:true});}
 const robots=fs.readFileSync(path.join(dist,'robots.txt'),'utf8');
 if(noindex&&!robots.includes('Disallow: /'))throw new Error('noindex enabled but robots.txt does not disallow crawling');

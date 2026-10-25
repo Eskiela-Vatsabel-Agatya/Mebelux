@@ -3,7 +3,7 @@
 | # | Decision | Notes / guardrails |
 |---|---|---|
 | D1 | Astro `output: 'static'` | Exact-pinned packages and lockfile; no adapter, `functions/`, or root `wrangler.*`. |
-| D2 | Git-linked Cloudflare Pages | Production only from `main`; feature branches preview; no functions/bindings; check first build log. Public config must be in dashboard for Production and Preview. |
+| D2 | Git-linked Cloudflare Pages | Production only from the repository's production branch (`master` in this checkout); feature branches preview; no functions/bindings; check first build log. Public config must be in dashboard for Production and Preview. |
 | D3 | Neumorphic soft UI | Raised/inset containers; CTAs/text/outlined AR pill flat and high contrast; real control borders; light grey surface. |
 | D4 | Original paths and permanent slugs | `/`, `/gallery-proyek/`, and the eight provided project slugs. |
 | D5 | No prices, stock, or product cards | Projects are bespoke rooms; WhatsApp consultation is the conversion action. |

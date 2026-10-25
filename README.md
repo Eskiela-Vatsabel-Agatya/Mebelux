@@ -9,6 +9,10 @@ Static Astro recreation of Mebelux’s home and project gallery pages. This is a
 3. Run `npm install`, then `npm run dev`.
 4. Run `npm run check`, `npm run build`, and `npm test`. `npm test` requires the Playwright Chromium browser (`npx playwright install chromium`). `npm run test:noindex` temporarily flips the indexing flag, rebuilds to verify robots/sitemap behavior, restores the flag, and rebuilds the default indexed site.
 
+## Deploy to Cloudflare Pages
+
+Connect this GitHub repository as a **Pages** project. Use `npm run build` as the build command, `dist` as the build output directory, and the repository's production branch (`master` in this checkout). Leave the deploy command empty; Pages publishes the build output automatically. Do not use `npx wrangler deploy` for this static Pages project. That command configures an Astro Worker adapter and changes Astro's public output path to `dist/client/`.
+
 ## Project data
 
 - `src/data/site.ts`: company information, navigation, public URLs, indexing and WhatsApp messages.
