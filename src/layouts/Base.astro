@@ -44,6 +44,13 @@ const ogImage = image || new URL('/og-default.png', site.baseUrl).toString();
         root.querySelector('[data-photo-prev]')?.addEventListener('click',()=>show(i-1)); root.querySelector('[data-photo-next]')?.addEventListener('click',()=>show(i+1)); thumbs.forEach((b,j)=>b.addEventListener('click',()=>show(j)));
         root.addEventListener('keydown',(e)=>{if(e.key==='ArrowLeft'){e.preventDefault();show(i-1)}if(e.key==='ArrowRight'){e.preventDefault();show(i+1)}}); show(0);
       });
+      document.querySelectorAll<HTMLElement>('[data-media-pane]').forEach((root)=>root);
+      document.querySelectorAll<HTMLElement>('.detail-media').forEach((root)=>{
+        const modelPane=root.querySelector<HTMLElement>('[data-model-pane]'); const photoPane=root.querySelector<HTMLElement>('[data-photo-pane]'); const photoTab=root.querySelector<HTMLButtonElement>('[data-photo-tab]'); const modelTab=root.querySelector<HTMLButtonElement>('[aria-controls="model-pane"]');
+        const choose=(photo:boolean)=>{if(!photoPane||!modelPane)return;photoPane.classList.toggle('is-hidden',!photo);modelPane.classList.toggle('is-hidden',photo);photoTab?.setAttribute('aria-selected',String(photo));modelTab?.setAttribute('aria-selected',String(!photo));photoTab?.setAttribute('tabindex',photo?'0':'-1');modelTab?.setAttribute('tabindex',photo?'-1':'0');};
+        photoTab?.addEventListener('click',()=>choose(true)); modelTab?.addEventListener('click',()=>choose(false));
+        root.querySelector('[role="tablist"]')?.addEventListener('keydown',(event)=>{const e=event as KeyboardEvent;if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const photo=e.key==='ArrowRight';choose(photo);(photo?photoTab:modelTab)?.focus();});
+      });
     </script>
   </body>
 </html>

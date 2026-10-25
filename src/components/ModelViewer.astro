@@ -1,0 +1,23 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../data/projects';
+import { R2 } from '../lib/assets';
+import logo from '../assets/brand/logo-raster.jpg';
+import QrPopover from './QrPopover.astro';
+const { project, context = 'detail' } = Astro.props as { project: Project; context?: 'hero' | 'detail' };
+const cover = project.photos[0];
+const model = project.model!;
+const glb = R2(model.glb);
+const usdz = R2(model.usdz);
+---
+<section class:list={['model-viewer-card', `model-${context}`]} data-model-card data-model-status="idle" data-glb={glb} data-usdz={usdz} data-media-state="model+photos" aria-label={`Model 3D ${model.label}`}>
+  <Image class="model-poster" src={cover.src} alt={cover.alt} width={cover.src.width} height={cover.src.height} loading={context === 'hero' ? 'eager' : 'lazy'} />
+  <model-viewer src={glb} ios-src={usdz} ar ar-modes="scene-viewer webxr quick-look" ar-placement="floor" camera-controls disable-zoom={context === 'hero' ? true : undefined} touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" interaction-prompt="auto" loading="eager" alt={`Model 3D ${model.label}`}><button type="button" class="button button-yellow ar-button" slot="ar-button" data-ar-button hidden>Lihat di ruang Anda</button></model-viewer>
+  <div class="model-loading" data-model-loading aria-live="polite"><Image class="model-logo" src={logo} alt="" width={logo.width} height={logo.height} loading="lazy" /><span data-model-message>Memuat model 3D…</span></div>
+  <div class="model-fallback" data-model-fallback hidden><p>Model 3D belum dapat dimuat. Foto proyek tetap tersedia.</p><button class="button button-yellow" type="button" data-model-retry>Coba lagi</button></div>
+  <div class="model-controls"><span class="model-chip" data-model-chip hidden>Model 3D</span>{context === 'detail' ? <QrPopover slug={project.slug} /> : null}</div>
+  <span class="visually-hidden" data-model-announcer aria-live="polite"></span>
+</section>
+<script>
+  import '../scripts/model-viewer-controller';
+</script>

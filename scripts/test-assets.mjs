@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { assetUrl, isValidAssetKey, modelUrls } from '../src/lib/asset-keys.js';
+for (const name of ['mrs-yati.glb','mrs-yati.usdz','scene.mp4','walk.webm']) assert.equal(isValidAssetKey(name),true);
+for (const name of ['../secret.glb','sub/model.glb','Mrs-Yati.glb','foo..glb','image.png']) assert.equal(isValidAssetKey(name),false);
+assert.equal(assetUrl('mrs-yati.glb'),'/model/mrs-yati.glb');
+assert.equal(assetUrl('walk.webm'),'/video/walk.webm');
+assert.equal(assetUrl('mrs-yati.glb','https://assets.example.workers.dev'),'https://assets.example.workers.dev/mrs-yati.glb');
+assert.throws(()=>assetUrl('mrs-yati.glb','https://bucket.r2.dev'));
+assert.deepEqual(modelUrls('mrs-yati'),{glb:'/model/mrs-yati.glb',usdz:'/model/mrs-yati.usdz'});
+console.log('Asset keys and URL helper pass.');

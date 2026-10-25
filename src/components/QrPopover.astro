@@ -1,0 +1,18 @@
+---
+const { slug } = Astro.props as { slug: string };
+---
+<div class="qr-popover" data-qr-popover>
+  <button class="button button-yellow qr-trigger" type="button" aria-expanded="false" aria-controls={`qr-${slug}`}>Buka di HP</button>
+  <div class="qr-panel surface-raised" id={`qr-${slug}`} tabindex="-1" hidden>
+    <p>Pindai untuk membuka proyek di ponsel.</p><img src={`/qr/${slug}.svg`} alt={`Kode QR proyek ${slug}`} width="180" height="180" loading="lazy" />
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-qr-popover]').forEach((root) => {
+    const button = root.querySelector<HTMLButtonElement>('.qr-trigger')!; const panel = root.querySelector<HTMLElement>('.qr-panel')!;
+    const close = () => { panel.hidden = true; button.setAttribute('aria-expanded', 'false'); };
+    button.addEventListener('click', () => { const open = panel.hidden; panel.hidden = !open; button.setAttribute('aria-expanded', String(open)); if (open) panel.focus(); });
+    document.addEventListener('pointerdown', (event) => { if (!root.contains(event.target as Node)) close(); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !panel.hidden) { close(); button.focus(); } });
+  });
+</script>

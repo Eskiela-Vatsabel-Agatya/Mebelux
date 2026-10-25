@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets'; import Base from '../../layouts/Base.astro'; import { projects } from '../../data/projects'; import { site, waLink } from '../../data/site';
+import { Image } from 'astro:assets'; import Base from '../../layouts/Base.astro'; import { projects } from '../../data/projects'; import { site, waLink } from '../../data/site'; import ModelViewer from '../../components/ModelViewer.astro';
 export function getStaticPaths(){return projects.map((project)=>({params:{slug:project.slug},props:{project}}));}
 const { project } = Astro.props as { project: (typeof projects)[number] };
 const details = project.details ? Object.entries(project.details).filter(([,v])=>Boolean(v)) : [];
@@ -11,13 +11,16 @@ const imageUrls = project.photos.map((photo)=>new URL(photo.src.src,site.baseUrl
   <section class="section detail-page"><div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/gallery-proyek/">Gallery Proyek</a><span>›</span><span aria-current="page">{project.name}</span></nav>
     <h1>{project.name}</h1>
-    <div class="detail-media" data-media-state="photos"><!-- Phase 2: this container may become data-media-state="model+photos". -->
+    <div class="detail-media" data-media-state={project.model ? 'model+photos' : 'photos'}>
+      {project.model && <div class="media-tabs" role="tablist" aria-label="Media proyek"><button id="model-tab" type="button" role="tab" aria-selected="true" aria-controls="model-pane" tabindex="0">Model 3D & AR</button><button id="photo-tab" type="button" role="tab" aria-selected="false" aria-controls="photo-pane" data-photo-tab tabindex="-1">Lihat foto</button></div>}
+      {project.model && <div id="model-pane" class="media-pane" role="tabpanel" aria-labelledby="model-tab" data-model-pane><ModelViewer project={project} context="detail" /><details class="ar-help"><summary>Cara pakai AR</summary><p>Ketuk tombol AR pada perangkat yang mendukung, lalu ikuti petunjuk di layar untuk menempatkan model di lantai. Gerakkan ponsel perlahan agar perangkat mengenali ruang.</p></details></div>}
+      <div id="photo-pane" class:list={['photo-pane', project.model && 'is-hidden']} role={project.model ? 'tabpanel' : undefined} aria-labelledby={project.model ? 'photo-tab' : undefined} data-photo-pane>
       <div class="photo-viewer surface-inset" data-photo-viewer tabindex="0" aria-label={`Galeri foto ${project.name}`}>
         <div class="main-photo">{project.photos.map((photo,i)=><Image data-photo src={photo.src} alt={photo.alt} width={photo.src.width} height={photo.src.height} loading={i===0?'eager':'lazy'} sizes="(min-width: 1024px) 65vw, 100vw" hidden={i!==0}/>)}</div>
         <button class="photo-arrow prev" type="button" data-photo-prev aria-label="Foto sebelumnya">←</button><button class="photo-arrow next" type="button" data-photo-next aria-label="Foto berikutnya">→</button>
         <div class="thumbnail-strip">{project.photos.map((photo,i)=><button data-thumb type="button" aria-label={`Tampilkan foto ${i+1}`} aria-current={i===0?'true':'false'} disabled={i===0}><Image src={photo.src} alt={`Foto ${i+1} proyek ${project.name}`} width={photo.src.width} height={photo.src.height} loading="lazy"/></button>)}</div>
         <p class="photo-caption" data-caption aria-live="polite">Foto 1 dari {project.photos.length}</p>
-      </div>
+      </div></div>
     </div>
     {details.length>0 && <dl class="project-details">{details.map(([key,value])=><div><dt>{key}</dt><dd>{value}</dd></div>)}</dl>}
     <a class="button button-whatsapp" href={waLink(message)}>Konsultasikan proyek serupa</a>

@@ -6,8 +6,9 @@ import gofi1 from '../assets/projects/mrs-gofi/temp-1.jpg'; import gofi2 from '.
 import wawan1 from '../assets/projects/mr-wawan/temp-1.jpg'; import wawan2 from '../assets/projects/mr-wawan/temp-2.jpg';
 import awk1 from '../assets/projects/awk-office/awk-1.jpg'; import awk2 from '../assets/projects/awk-office/awk-2.jpg'; import awk3 from '../assets/projects/awk-office/awk-3.jpg'; import awk4 from '../assets/projects/awk-office/awk-4.jpg'; import awk5 from '../assets/projects/awk-office/awk-5.jpg';
 import yati1 from '../assets/projects/mrs-yati/yati-1.jpg'; import yati2 from '../assets/projects/mrs-yati/yati-2.jpg'; import yati3 from '../assets/projects/mrs-yati/yati-3.jpg'; import yati4 from '../assets/projects/mrs-yati/yati-4.jpg';
+import { R2Model } from '../lib/assets';
 type Photo = { src: ImageMetadata; alt: string; temp?: boolean };
-export type Project = { slug:string; name:string; kind:'residential'|'commercial'; photos:Photo[]; details?:Partial<Record<'ruang'|'lokasi'|'tahun'|'material'|'dimensi'|'deskripsi',string>> };
+export type Project = { slug:string; name:string; kind:'residential'|'commercial'; photos:Photo[]; model?:{glb:string;usdz:string;label:string}; details?:Partial<Record<'ruang'|'lokasi'|'tahun'|'material'|'dimensi'|'deskripsi',string>> };
 const tmp=(src:ImageMetadata, n:number):Photo=>({src,alt:`Foto proyek interior Mebelux, tampilan ${n}`,temp:true});
 export const projects:Project[] = [
   {slug:'mr-alvin',name:'Mr. Alvin',kind:'residential',photos:[tmp(alvin1,1),tmp(alvin2,2)]},
@@ -21,5 +22,5 @@ export const projects:Project[] = [
   {slug:'mr-wawan',name:'Mr. Wawan',kind:'residential',photos:[tmp(wawan1,1),tmp(wawan2,2)]},
   {slug:'mrs-yati',name:'Mrs. Yati',kind:'residential',photos:[
     {src:yati1,alt:'Kitchen set berbentuk L dengan kabinet putih, countertop gelap, dan dinding merah muda'}, {src:yati2,alt:'Kitchen set Mebelux dengan kabinet atas terbuka dan countertop gelap'}, {src:yati3,alt:'Detail kitchen set putih Mebelux dan permukaan countertop'}, {src:yati4,alt:'Tampilan lain kitchen set Mebelux dengan kabinet putih'},
-  ]},
+  ],model:{...R2Model('mrs-yati'),label:'Dapur Mrs. Yati'}},
 ];

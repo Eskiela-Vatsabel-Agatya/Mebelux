@@ -1,15 +1,9 @@
 ---
-import { Image } from 'astro:assets';
 import type { Project } from '../data/projects';
+import ModelViewer from './ModelViewer.astro';
 const { project } = Astro.props as { project: Project };
-const poster = project.photos[0];
 ---
 <div class="showcase surface-inset" data-state="idle" data-project="mrs-yati">
-  <Image src={poster.src} alt={poster.alt} width={poster.src.width} height={poster.src.height} sizes="(min-width: 1024px) 38vw, 90vw" loading="eager" />
-  <span class="visually-hidden">Pratinjau foto proyek kitchen set Mrs. Yati.</span>
-  <!-- Phase 2 slot: model-viewer goes here. -->
-  <!-- Phase 2 slot: Geser untuk memutar chip goes here. -->
-  <!-- Phase 2 slot: AR launch button goes here. -->
-  <!-- Phase 2 slot: aria-live media status region goes here. -->
-  <a class="showcase-link" href="/gallery-proyek/mrs-yati/">Lihat proyek</a>
+  {project.model ? <ModelViewer project={project} context="hero" /> : null}
+  <a class="showcase-link" href="/gallery-proyek/mrs-yati/">Lihat proyek →</a>
 </div>

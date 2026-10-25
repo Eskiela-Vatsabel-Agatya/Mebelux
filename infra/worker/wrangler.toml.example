@@ -1,0 +1,7 @@
+name = "mebelux-3d-asset" # VERIFY proposed name
+main = "index.js"
+compatibility_date = "2026-10-25"
+
+[[r2_buckets]]
+binding = "MY_BUCKET"
+bucket_name = "mebelux-3d-asset" # VERIFY proposed bucket name

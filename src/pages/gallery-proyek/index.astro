@@ -4,7 +4,7 @@ import { Image } from 'astro:assets'; import Base from '../../layouts/Base.astro
 <Base title="Proyek Mebelux | Gallery Proyek" description="Kumpulan proyek interior dan furniture custom Mebelux.">
   <section class="section gallery-page"><div class="container"><h1 class="section-title">Proyek Mebelux</h1><div class="projects-grid">
     {projects.map((project)=><article class="project-card surface-raised"><div class="mini-gallery" data-photo-viewer data-counter-format="fraction" tabindex="0" aria-label={`Foto proyek ${project.name}`}>
-      <div class="mini-photos">{project.photos.map((photo,i)=><Image data-photo src={photo.src} alt={photo.alt} width={photo.src.width} height={photo.src.height} loading="lazy" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" hidden={i!==0}/>)}</div>
+      <div class="mini-photos">{project.photos.map((photo,i)=><Image data-photo src={photo.src} alt={photo.alt} width={photo.src.width} height={photo.src.height} loading="lazy" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" hidden={i!==0}/>)}</div>{project.model && <span class="project-badge">Model 3D</span>}
       <button class="photo-arrow prev" type="button" data-photo-prev aria-label={`Foto sebelumnya ${project.name}`}>←</button><button class="photo-arrow next" type="button" data-photo-next aria-label={`Foto berikutnya ${project.name}`}>→</button><p class="photo-counter" data-caption aria-live="polite">Foto 1 dari {project.photos.length}</p>
     </div><a class="project-name" href={`/gallery-proyek/${project.slug}/`}>{project.name}</a></article>)}
   </div></div></section>
