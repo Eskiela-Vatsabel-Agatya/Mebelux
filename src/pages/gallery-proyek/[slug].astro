@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets'; import Base from '../../layouts/Base.astro'; import { projects } from '../../data/projects'; import { site, waLink } from '../../data/site';
+export function getStaticPaths(){return projects.map((project)=>({params:{slug:project.slug},props:{project}}));}
+const { project } = Astro.props as { project: (typeof projects)[number] };
+const details = project.details ? Object.entries(project.details).filter(([,v])=>Boolean(v)) : [];
+const message = `Halo Mebelux Furniture, saya tertarik dengan proyek ${project.name} dan ingin konsultasi.`;
+const imageUrls = project.photos.map((photo)=>new URL(photo.src.src,site.baseUrl).toString());
+---
+<Base title={`${project.name} | Proyek Mebelux`} description={`Lihat foto proyek ${project.name} oleh Mebelux Furniture.`} image={imageUrls[0]}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@type':'ImageGallery',name:project.name,url:new URL(`/gallery-proyek/${project.slug}/`,site.baseUrl).toString(),image:imageUrls})} />
+  <section class="section detail-page"><div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/gallery-proyek/">Gallery Proyek</a><span>›</span><span aria-current="page">{project.name}</span></nav>
+    <h1>{project.name}</h1>
+    <div class="detail-media" data-media-state="photos"><!-- Phase 2: this container may become data-media-state="model+photos". -->
+      <div class="photo-viewer surface-inset" data-photo-viewer tabindex="0" aria-label={`Galeri foto ${project.name}`}>
+        <div class="main-photo">{project.photos.map((photo,i)=><Image data-photo src={photo.src} alt={photo.alt} width={photo.src.width} height={photo.src.height} loading={i===0?'eager':'lazy'} sizes="(min-width: 1024px) 65vw, 100vw" hidden={i!==0}/>)}</div>
+        <button class="photo-arrow prev" type="button" data-photo-prev aria-label="Foto sebelumnya">←</button><button class="photo-arrow next" type="button" data-photo-next aria-label="Foto berikutnya">→</button>
+        <div class="thumbnail-strip">{project.photos.map((photo,i)=><button data-thumb type="button" aria-label={`Tampilkan foto ${i+1}`} aria-current={i===0?'true':'false'} disabled={i===0}><Image src={photo.src} alt={`Foto ${i+1} proyek ${project.name}`} width={photo.src.width} height={photo.src.height} loading="lazy"/></button>)}</div>
+        <p class="photo-caption" data-caption aria-live="polite">Foto 1 dari {project.photos.length}</p>
+      </div>
+    </div>
+    {details.length>0 && <dl class="project-details">{details.map(([key,value])=><div><dt>{key}</dt><dd>{value}</dd></div>)}</dl>}
+    <a class="button button-whatsapp" href={waLink(message)}>Konsultasikan proyek serupa</a>
+    <section class="other-projects"><h2>Proyek lainnya</h2><div class="other-grid">{projects.filter((p)=>p.slug!==project.slug).map((p)=><a class="other-card surface-raised" href={`/gallery-proyek/${p.slug}/`}><Image src={p.photos[0].src} alt={p.photos[0].alt} width={p.photos[0].src.width} height={p.photos[0].src.height} loading="lazy"/><span>{p.name}</span></a>)}</div></section>
+  </div></section>
+</Base>

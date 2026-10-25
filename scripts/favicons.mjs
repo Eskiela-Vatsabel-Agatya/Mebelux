@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import sharp from 'sharp';
+const root = process.cwd();
+const source = fs.readFileSync(path.join(root,'src/assets/brand/favicon.svg'),'utf8');
+fs.mkdirSync(path.join(root,'public'),{recursive:true});
+await fs.promises.writeFile(path.join(root,'public/favicon.svg'),source.replace('<svg ','<svg width="180" height="180" '));
+await sharp(Buffer.from(source)).resize(32,32).png().toFile(path.join(root,'public/favicon-32.png'));
+await sharp(Buffer.from(source)).resize(180,180).png().toFile(path.join(root,'public/apple-touch-icon.png'));
+console.log('TEMP favicons generated from geometric M source.');

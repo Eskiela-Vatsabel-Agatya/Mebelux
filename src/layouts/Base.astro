@@ -1,0 +1,49 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+const { title, description, image, isHome = false } = Astro.props as { title:string; description:string; image?:string; isHome?:boolean };
+const canonical = new URL(Astro.url.pathname, site.baseUrl).toString();
+const ogImage = image || new URL('/og-default.png', site.baseUrl).toString();
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} /><title>{title}</title><meta name="description" content={description} />
+    <link rel="canonical" href={canonical} /><meta name="robots" content={site.noindex ? 'noindex,nofollow' : 'index,follow'} />
+    <meta property="og:type" content="website" /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content={ogImage} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" /><link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <slot name="head" />
+  </head>
+  <body>
+    <Header isHome={isHome} /><main id="main"><slot /></main><Footer />
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const nav = document.querySelector<HTMLElement>('#main-nav');
+      toggle?.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu'); nav?.classList.toggle('is-open', open); });
+      nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { toggle?.setAttribute('aria-expanded','false'); nav.classList.remove('is-open'); }));
+      document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { toggle.setAttribute('aria-expanded','false'); nav?.classList.remove('is-open'); toggle.focus(); } });
+      const sections = [...document.querySelectorAll<HTMLElement>('[data-observe-section]')];
+      if ('IntersectionObserver' in window && sections.length) { const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) document.querySelectorAll<HTMLAnchorElement>('[data-section]').forEach((a) => a.classList.toggle('active',a.dataset.section===entry.target.id)); }), {rootMargin:'-35% 0px -55% 0px'}); sections.forEach((section)=>observer.observe(section)); }
+      const initCarousel = (root: HTMLElement) => {
+        const track = root.querySelector<HTMLElement>('[data-track]'); if (!track) return;
+        const slides = [...track.children] as HTMLElement[]; let index = 0;
+        const prev = root.querySelector<HTMLButtonElement>('[data-prev]'); const next = root.querySelector<HTMLButtonElement>('[data-next]');
+        const dots = [...root.querySelectorAll<HTMLButtonElement>('[data-dot]')]; const update = () => { slides.forEach((slide,i)=>{if(!slide.matches('a,button,input,select,textarea,[tabindex]')&&!slide.querySelector('a,button,input,select,textarea,[tabindex]'))slide.setAttribute('aria-hidden',String(i!==index))}); dots.forEach((dot,i)=>{dot.setAttribute('aria-current',String(i===index));dot.disabled=i===index;}); if(prev)prev.disabled=index===0; if(next)next.disabled=index===slides.length-1; };
+        const go=(n:number)=>{index=Math.max(0,Math.min(slides.length-1,n)); const slide=slides[index]; const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; track.scrollTo({left:slide.offsetLeft-track.offsetLeft,behavior:reduce?'auto':'smooth'}); update();};
+        prev?.addEventListener('click',()=>go(index-1)); next?.addEventListener('click',()=>go(index+1)); dots.forEach((dot,i)=>dot.addEventListener('click',()=>go(i)));
+        root.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'){e.preventDefault();go(index+1)} if(e.key==='ArrowLeft'){e.preventDefault();go(index-1)}}); update();
+      };
+      document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(initCarousel);
+      document.querySelectorAll<HTMLElement>('[data-photo-viewer]').forEach((root)=>{
+        const images=[...root.querySelectorAll<HTMLImageElement>('[data-photo]')]; const thumbs=[...root.querySelectorAll<HTMLButtonElement>('[data-thumb]')]; const caption=root.querySelector<HTMLElement>('[data-caption]'); let i=0;
+        const show=(n:number)=>{i=(n+images.length)%images.length;images.forEach((img,j)=>img.hidden=j!==i);thumbs.forEach((btn,j)=>{btn.setAttribute('aria-current',String(j===i));btn.disabled=j===i});if(caption)caption.textContent=root.dataset.counterFormat==='fraction'?`${i+1} of ${images.length}`:`Foto ${i+1} dari ${images.length}`};
+        root.querySelector('[data-photo-prev]')?.addEventListener('click',()=>show(i-1)); root.querySelector('[data-photo-next]')?.addEventListener('click',()=>show(i+1)); thumbs.forEach((b,j)=>b.addEventListener('click',()=>show(j)));
+        root.addEventListener('keydown',(e)=>{if(e.key==='ArrowLeft'){e.preventDefault();show(i-1)}if(e.key==='ArrowRight'){e.preventDefault();show(i+1)}}); show(0);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo-raster.jpg';
+import { site } from '../data/site';
+const { isHome = false } = Astro.props as { isHome?: boolean };
+const href = (value:string) => isHome ? value : `/${value}`;
+---
+<a class="skip-link" href="#main">Langsung ke konten</a>
+<header class="site-header">
+  <div class="header-inner container">
+    <a class="brand" href={isHome ? '#home' : '/'} aria-label="Mebelux Furniture, beranda"><Image src={logo} alt="Mebelux Furniture" width={293} height={69} loading="eager" /></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Buka menu"><span></span><span></span><span></span></button>
+    <nav id="main-nav" aria-label="Navigasi utama">
+      {site.nav.map((item) => <a href={href(item.href)} data-section={item.section}>{item.label}</a>)}
+      <a class="social-link" href={site.social.instagram} aria-label="Instagram Mebeluxfurniture" target="_blank" rel="noopener noreferrer">◎</a>
+    </nav>
+  </div>
+</header>

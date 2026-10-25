@@ -1,0 +1,17 @@
+:root {
+  /* Project palette and component color values live only here. */
+  --brand-50:#fff9e5; --brand-100:#fff1bf; --brand-200:#ffe58a; --brand-300:#ffd54f;
+  --brand-400:#ffc928; --brand-500:#f8c000; --brand-600:#e0a900; --brand-700:#ad7600;
+  --brand-800:#805600; --brand-900:#593c00; --brand-950:#332200;
+  --ink:#1e293b; --ink-muted:#475569; --surface:#e0e0e0; --surface-raised:#eaeaea; --surface-inset:#d3d3d3;
+  --border-control:#755100; --whatsapp:#0f7a3d; --whatsapp-icon:#25d366; --white:#ffffff;
+  --danger:#b42318; --warning:#8a4b00; --success:#166534; --info:#075985;
+  --shadow-raised: 7px 7px 18px rgba(0,0,0,.12), -7px -7px 18px rgba(255,255,255,.7);
+  --shadow-inset: inset 6px 6px 14px rgba(0,0,0,.10), inset -6px -6px 14px rgba(255,255,255,.68);
+  --shadow-header:0 4px 14px rgba(0,0,0,.08);
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px; --space-8:32px; --space-10:40px; --space-12:48px; --space-16:64px;
+  --radius-sm:12px; --radius-md:20px; --radius-lg:32px; --radius-pill:999px;
+  --text-xs:14px; --text-sm:16px; --text-md:20px; --text-lg:32px; --text-xl:42px; --text-hero:clamp(42px,5.2vw,72px);
+  --font-display:'Plus Jakarta Sans',sans-serif; --font-body:'Inter',sans-serif;
+  --control-height:48px; --content-width:1200px;
+}

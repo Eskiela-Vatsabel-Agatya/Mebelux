@@ -1,0 +1,14 @@
+---
+const { name } = Astro.props as { name: string };
+---
+<svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <circle cx="24" cy="24" r="22" fill="var(--brand-300)" stroke="none" />
+  {name === 'consult' && <><path d="M10 30c0-5 3-8 7-8s7 3 7 8v4H10z"/><circle cx="17" cy="15" r="4"/><path d="M25 14h12v9h-5l-4 4v-4h-3z"/></>}
+  {name === 'design' && <><path d="m11 23 13-11 13 11v13H11z"/><path d="M19 36V25h9v11M30 16l5-4 3 3-4 5"/></>}
+  {name === 'production' && <><path d="M12 34h25M16 31l4-8 7 3 5-4 7 3"/><circle cx="24" cy="15" r="4"/><path d="m21 19-5 7 8 3 5-5M12 34v-5M37 34v-5"/></>}
+  {name === 'install' && <><path d="M11 34h26M15 34v-7h8v-7h8v-7h5"/><circle cx="15" cy="14" r="3"/><path d="m15 17 3 8 7 3M17 23l-5 5"/></>}
+  {name === 'custom' && <><rect x="13" y="11" width="22" height="26" rx="2"/><path d="M19 31l2-7 9-9 4 4-9 9zM19 31l5-2"/></>}
+  {name === 'professional' && <><path d="M24 11 35 15v9c0 7-5 11-11 14-6-3-11-7-11-14v-9z"/><path d="m19 24 4 4 7-8"/></>}
+  {name === 'material' && <><path d="m12 18 12-7 12 7-12 7zM12 25l12 7 12-7M12 32l12 6 12-6"/><circle cx="35" cy="14" r="5"/></>}
+  {name === 'warranty' && <><path d="M24 10 36 15v9c0 7-5 11-12 14-7-3-12-7-12-14v-9z"/><path d="m18 25 4 4 8-9"/><path d="M18 17h12"/></>}
+</svg>

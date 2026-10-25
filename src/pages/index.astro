@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro'; import Icon from '../components/Icon.astro'; import ShowcaseWindow from '../components/ShowcaseWindow.astro';
+import hero from '../assets/hero/hero-kitchen.jpg'; import logo from '../assets/brand/logo-raster.jpg'; import aboutPhoto from '../assets/about/awk-3.jpg';
+import { site, waLink, genericMessage } from '../data/site'; import { workflow } from '../data/workflow'; import { services } from '../data/services'; import { whyUs } from '../data/whyUs'; import { reviews } from '../data/reviews'; import { galleryTeaser } from '../data/gallery-teaser'; import { projects } from '../data/projects';
+const yati = projects.find((project) => project.slug === 'mrs-yati')!;
+---
+<Base isHome title="Mebelux Furniture | Interior dan Furniture Custom" description="Mewujudkan ruang impian dengan sentuhan personal bersama Mebelux Furniture di Surakarta." >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({ '@context':'https://schema.org', '@type':['LocalBusiness','FurnitureStore'], name:site.name, legalName:site.legalName, url:site.baseUrl, telephone:'+62818838384', address:{'@type':'PostalAddress',streetAddress:'Jl. Letjen Suprapto No.65, Sumber, Kec. Banjarsari',addressLocality:'Kota Surakarta',addressRegion:'Jawa Tengah',postalCode:'57138',addressCountry:'ID'}, sameAs:[site.social.instagram] })} />
+  <section class="hero" id="home" data-observe-section>
+    <div class="hero-heading"><h1>MEBELUX FURNITURE</h1><p>{site.tagline}</p></div>
+    <div class="hero-stage">
+      <Image class="hero-background" src={hero} alt="Ruang dapur bergaya Skandinavia dengan kitchen set terang" width={2148} height={732} loading="eager" fetchpriority="high" sizes="100vw" />
+      <ShowcaseWindow project={yati} />
+    </div>
+  </section>
+
+  <section class="section" id="alur-kerja" data-observe-section><div class="container"><h2 class="section-title">Alur Kerja Mebelux Furniture</h2><div class="workflow-grid">
+    {workflow.map((item)=><article class="info-card surface-raised"><Icon name={item.icon}/><h3>{item.title}</h3><p>{item.description}</p></article>)}
+  </div></div></section>
+
+  <section class="section" id="services" data-observe-section><div class="container"><h2 class="section-title">Mebelux Service</h2><div class="services-grid">
+    {services.map((item)=><article class="service-card surface-raised"><Image src={item.image} alt={`Contoh ${item.title} Mebelux`} width={item.image.width} height={item.image.height} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"/><div class="service-copy"><h3>{item.title}</h3><p>{item.description}</p></div></article>)}
+  </div></div></section>
+
+  <section class="section" id="about" data-observe-section><div class="container about-grid"><div class="about-copy"><Image class="about-logo" src={logo} alt="Logo Mebelux Furniture" width={293} height={69} loading="lazy"/><h2>Tentang Kami</h2><p>Kami adalah tim desainer interior dan <em>custom</em> furniture yang berfokus pada satu tujuan: <strong>Menghidupkan imajinasi Anda.</strong> Dari dapur yang menginspirasi masakan lezat hingga kamar tidur yang menenangkan jiwa, setiap potongan furniture kami kerjakan dengan ketelitian tingkat tinggi, material pilihan, dan sentuhan personal yang mencerminkan jati diri Anda.</p><a class="button button-whatsapp" href={waLink(genericMessage)}>Hubungi Sekarang</a></div><Image class="about-photo surface-raised" src={aboutPhoto} alt="Interior proyek Mebelux AWK Office" width={1920} height={2560} loading="lazy"/></div></section>
+
+  <section class="section" id="why-us" data-observe-section><div class="container"><h2 class="section-title">Mengapa Harus MEBELUX ?</h2><div class="why-grid">
+    {whyUs.map((item)=><article class="why-card"><Icon name={item.icon}/><div><h3>{item.title}</h3><p>{item.description}</p></div></article>)}
+  </div></div></section>
+
+  <section class="section" id="gallery" data-observe-section><div class="container"><h2 class="section-title">Gallery Proyek MEBELUX</h2><div class="teaser-grid" data-carousel role="region" aria-label="Galeri proyek Mebelux"><div class="teaser-track" data-track tabindex="0">
+    {galleryTeaser.map((item)=><a class="teaser-card" href="/gallery-proyek/"><Image src={item.image} alt={item.alt} width={item.image.width} height={item.image.height} loading="lazy" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 78vw"/></a>)}
+  </div><div class="carousel-controls"><button class="round-button" data-prev aria-label="Proyek sebelumnya">←</button><button class="round-button" data-next aria-label="Proyek berikutnya">→</button></div></div><div class="center"><a class="button button-yellow" href="/gallery-proyek/">Lihat Semua Gallery</a></div></div></section>
+
+  <section class="section reviews-section" id="reviews" data-observe-section><div class="container"><h2 class="section-title">Customer Review</h2><div class="review-carousel surface-raised" data-carousel role="region" aria-label="Ulasan pelanggan"><div class="review-track" data-track aria-live="polite" tabindex="0">
+    {reviews.map((review)=><article class="review-slide"><div class="initials" aria-hidden="true">{review.name.split(' ').map((n)=>n[0]).slice(0,2).join('').toUpperCase()}</div><blockquote>“{review.quote}”</blockquote><p class="review-name">{review.name}</p><p class="muted">{review.city}</p></article>)}
+  </div><div class="carousel-controls"><button class="round-button" data-prev aria-label="Ulasan sebelumnya">←</button><div class="review-dots">{reviews.map((_,i)=><button data-dot aria-label={`Lihat ulasan ${i+1}`}></button>)}</div><button class="round-button" data-next aria-label="Ulasan berikutnya">→</button></div></div></div></section>
+
+  <section class="cta-band" id="contact-cta" data-observe-section><div class="container"><h2>Wujudkan Rumah Impian Anda Bersama Kami</h2><a class="button button-whatsapp" href={waLink(genericMessage)}>Hubungi Sekarang</a></div></section>
+</Base>

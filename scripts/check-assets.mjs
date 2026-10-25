@@ -1,0 +1,4 @@
+import fs from 'node:fs'; import path from 'node:path'; import sharp from 'sharp';
+const base='src/assets';let total=0;let failure=false;
+async function walk(dir){for(const item of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,item.name);if(item.isDirectory())await walk(file);else{const size=fs.statSync(file).size;const meta=await sharp(file).metadata();total+=size;console.log(`${file}\t${meta.width}x${meta.height}\t${size} bytes`);if(size>900_000&&!file.includes(`${path.sep}hero${path.sep}`)){console.error(`Oversized image: ${file}`);failure=true}if(file.includes(`${path.sep}hero${path.sep}`)&&size>1_500_000){console.error(`Oversized hero: ${file}`);failure=true}}}}
+await walk(base);console.log(`Asset total: ${(total/1024/1024).toFixed(2)} MiB`);if(total>24*1024*1024){console.error('Assets alone exceed the 25 MB zip ceiling.');failure=true}if(failure)process.exit(1);

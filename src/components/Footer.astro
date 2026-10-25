@@ -1,0 +1,13 @@
+---
+import { site, waLink, genericMessage } from '../data/site';
+const { showFloating = true } = Astro.props as { showFloating?: boolean };
+---
+<footer class="site-footer">
+  <div class="footer-grid container">
+    <section><h3>Alamat Kami</h3><p>{site.address}</p><a href={site.mapsUrl} target="_blank" rel="noopener noreferrer">Buka di Google Maps</a></section>
+    <section><h3>Sosial Media</h3><a href={site.social.instagram} target="_blank" rel="noopener noreferrer"><span aria-hidden="true">◎</span> Mebeluxfurniture</a></section>
+    <section><h3>Kontak Kami</h3><a href={waLink(genericMessage)}>{site.whatsapp.display}</a></section>
+  </div>
+  <div class="footer-bottom"><p>Mebelux | PT. Laras Indah Karya</p>{site.credit && <p class="credit">Website dengan teknologi AR oleh LunAR</p>}</div>
+</footer>
+{showFloating && <a class="floating-wa" href={waLink(genericMessage)} aria-label="Chat WhatsApp Mebelux"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.6a8.5 8.5 0 1 1 16.6-3.7Z"/><path d="M8.2 8.3c.3-.5.6-.5.9-.5h.6c.2 0 .4.1.5.4l.8 1.9c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4-.1.6.4.8 1.1 1.5 2 1.9.2.1.4.1.6-.1l.8-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.5 0 .5-.2 1.1-.6 1.4-.5.5-1.2.7-1.9.6-1.1-.1-2.4-.7-3.7-1.8-1.1-1-2.1-2.4-2.4-3.6-.2-1 .1-1.9.4-2.5Z"/></svg></a>}

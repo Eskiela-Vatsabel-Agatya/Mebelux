@@ -1,0 +1,32 @@
+{
+  "name": "mebelux-lunar-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run check:hex && npm run favicons && npm run og && astro build && node scripts/postbuild.mjs",
+    "preview": "astro preview",
+    "check": "astro check && npm run check:hex && npm run contrast && npm run check:assets",
+    "check:hex": "node scripts/check-hex.mjs",
+    "check:assets": "node scripts/check-assets.mjs",
+    "test:noindex": "node scripts/check-noindex.mjs",
+    "contrast": "node scripts/contrast.mjs",
+    "favicons": "node scripts/favicons.mjs",
+    "og": "node scripts/og.mjs",
+    "test": "node scripts/check-site.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "@fontsource/inter": "5.2.6",
+    "@fontsource/plus-jakarta-sans": "5.2.6",
+    "astro": "7.4.2",
+    "sharp": "0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.5",
+    "@playwright/test": "1.56.1",
+    "axe-core": "4.10.3",
+    "typescript": "5.9.3"
+  }
+}
