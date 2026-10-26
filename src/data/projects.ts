@@ -22,5 +22,5 @@ export const projects:Project[] = [
   {slug:'mr-wawan',name:'Mr. Wawan',kind:'residential',photos:[tmp(wawan1,1),tmp(wawan2,2)]},
   {slug:'mrs-yati',name:'Mrs. Yati',kind:'residential',photos:[
     {src:yati1,alt:'Kitchen set berbentuk L dengan kabinet putih, countertop gelap, dan dinding merah muda'}, {src:yati2,alt:'Kitchen set Mebelux dengan kabinet atas terbuka dan countertop gelap'}, {src:yati3,alt:'Detail kitchen set putih Mebelux dan permukaan countertop'}, {src:yati4,alt:'Tampilan lain kitchen set Mebelux dengan kabinet putih'},
-  ],model:{...R2Model('mrs-yati'),label:'Dapur Mrs. Yati'}},
+  ],model:{...R2Model('kitchen-corner'),label:'Kitchen corner Mebelux'}},
 ];

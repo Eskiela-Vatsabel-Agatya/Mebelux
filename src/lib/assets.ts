@@ -1,6 +1,6 @@
 import { assetUrl, isValidAssetKey } from './asset-keys.js';
 
-const base = import.meta.env.PUBLIC_ASSET_BASE ?? '';
+const base = import.meta.env.PUBLIC_ASSET_BASE ?? 'https://mebelux-3d-asset.lunarcreativa.workers.dev';
 
 export function R2(name: string): string {
   return assetUrl(name, base);

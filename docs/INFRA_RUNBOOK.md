@@ -1,15 +1,15 @@
 # Phase 2 Cloudflare runbook
 
-**Prepare-only. No Cloudflare resource has been created.** All proposed names and live endpoints below are **VERIFY**. This is a Git-linked static Pages project, not an Astro Worker deployment.
+The supplied screenshot and endpoint confirm the Worker origin, bucket name, and two uploaded objects. This is a Git-linked static Pages project, not an Astro Worker deployment. Pages project name and production domain still need verification.
 
 ## Names to confirm
 
 | Item | Proposed value | State |
 |---|---|---|
 | Pages project | `mebelux` | VERIFY; existing Git-linked project and account owner unknown |
-| R2 bucket | `mebelux-3d-asset` | VERIFY; names are account-global |
-| Worker | `mebelux-3d-asset` | VERIFY; same proposed label, separate resource |
-| Worker URL | `https://<worker>.<account-subdomain>.workers.dev` | VERIFY |
+| R2 bucket | `mebelux-3d-asset` | Confirmed by supplied screenshot |
+| Worker | `mebelux-3d-asset` | Confirmed by supplied endpoint |
+| Worker URL | `https://mebelux-3d-asset.lunarcreativa.workers.dev` | Confirmed by supplied endpoint |
 | Pages production URL / custom domain | dashboard value | VERIFY |
 | Production branch | `master` in this checkout | Confirm dashboard branch |
 
@@ -24,10 +24,11 @@
 ## R2 bucket and Worker
 
 1. In **R2 Object Storage**, create the approved private bucket. Do not enable public `r2.dev` access.
-2. Upload approved `mrs-yati.glb` and, if provided, `mrs-yati.usdz` to the bucket root. Verify object names and sizes. Keep CAD and customer data out.
+2. The screenshot shows `kitchen-corner.glb` (6.91 MB) and `kitchen-corner.usdz` (7.01 MB) already at bucket root. The site now references those exact keys. Keep CAD and customer data out.
 3. Deploy `infra/worker/index.js` as the agreed Worker using `infra/worker/wrangler.toml.example` as a guide. Set binding name `MY_BUCKET` to the chosen bucket.
 4. In `index.js`, replace `PAGES_PROJECT = 'REPLACE_ME'` with the exact Pages project slug. Add exact production origin(s) to `PRODUCTION_ORIGINS`. Keep the narrow preview origin expression. Do not add wildcard origins or credentials.
-5. Verify the Worker endpoint and allowed Origins; set `PUBLIC_ASSET_BASE` to the Worker origin only (no path) for Pages Production and Preview, then rebuild/redeploy Pages.
+5. **Security follow-up:** live checks returned HTTP 200 for both uploaded model keys. The live preflight currently returns `Access-Control-Allow-Origin: *`, and HEAD requests return `application/octet-stream` for both extensions. Before production, deploy the scoped CORS and extension-specific MIME behavior in this repository with the confirmed Pages project/custom domain origins. The Pages project/domain are still unknown, so do not replace the source placeholders yet.
+6. `PUBLIC_ASSET_BASE` now defaults in source to the supplied Worker origin. It can also be set explicitly to this origin in Pages Production and Preview. The production deploy must wait for scoped Worker CORS to be active.
 6. Keep the Worker source in Git. The project ZIP includes Worker source but does not deploy/update the live Worker.
 
 ## Local model wiring

@@ -5,7 +5,7 @@ assert.match(viewer,/ar-modes="scene-viewer webxr quick-look"/);
 assert.match(viewer,/touch-action="pan-y"/);assert.match(viewer,/ar-placement="floor"/);assert.match(viewer,/slot="ar-button"/);
 assert.match(read('src/scripts/model-viewer-controller.ts'),/import\('@google\/model-viewer'\)/);
 assert.match(read('src/scripts/model-viewer-controller.ts'),/rootMargin: '200px'/);
-assert.match(read('src/data/projects.ts'),/R2Model\('mrs-yati'\)/);
+assert.match(read('src/data/projects.ts'),/R2Model\('kitchen-corner'\)/);
 for(const forbidden of ['R2Model(\'mr-alvin\')','R2Model(\'mrs-anis\')','R2Model(\'mrs-risa\')','R2Model(\'mrs-widia\')','R2Model(\'mrs-gofi\')','R2Model(\'mr-wawan\')'])assert.ok(!read('src/data/projects.ts').includes(forbidden));
 const yati=read('dist/gallery-proyek/mrs-yati/index.html');assert.match(yati,/Model 3D &amp; AR|Model 3D & AR/);assert.match(yati,/Cara pakai AR/);assert.match(yati,/\"@type\":\"ImageGallery\"/);
 for(const slug of ['mr-alvin','mrs-anis','mrs-risa','mrs-widia','awk-office','mrs-gofi','mr-wawan','mrs-yati'])assert.ok(fs.existsSync(`dist/qr/${slug}.svg`),`Missing QR output ${slug}`);

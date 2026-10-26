@@ -25,6 +25,6 @@ To add or edit a project, update `src/data/projects.ts`, add photo files beneath
 
 ## Phase 2 model and AR
 
-The approved Mrs. Yati model is delivered from a Cloudflare Worker bound to a private R2 bucket; confirm account and names in `docs/INFRA_RUNBOOK.md` before setup. The project is a static Pages build (`npm run build`, output `dist`), with no Astro Cloudflare adapter or `wrangler deploy`. `PUBLIC_ASSET_BASE` is the HTTPS Worker origin. Empty base URLs resolve to `/model/` and `/video/` for local development.
+The uploaded kitchen corner GLB and USDZ are delivered from the supplied Cloudflare Worker origin. The model viewer on Mrs. Yati's project uses those files. The project is a static Pages build (`npm run build`, output `dist`), with no Astro Cloudflare adapter or `wrangler deploy`. `PUBLIC_ASSET_BASE` defaults to the provided Worker origin; blank it locally to use `/model/` and `/video/` files.
 
 `npm run model:standin` creates an ignored, temporary GLB solely for local wiring checks. It is not an approved kitchen model and must not be uploaded. No USDZ is supplied. See `docs/MODEL_SPEC.md` for replacement acceptance and `docs/DEVICE_TEST_PLAN.md` for human device verification. The project ZIP omits `public/model/` and `public/video/` by design.

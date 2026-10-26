@@ -18,14 +18,15 @@
 | D14 | Logo yellow is primary; heading slate is ink | Sample from supplied raster/PDF/source artwork by pixel statistics; see recorded values below. |
 | D15 | Public site URL via `PUBLIC_SITE_URL` | Fallback is `http://localhost:4321`; no Pages project name is invented. |
 | D16 | Temporary gallery thumbnails | Six projects use two low-resolution PDF thumbnails each; their paint-order pairing is a best guess and needs human visual verification. |
-| D17 | Flat lowercase root asset keys | `mrs-yati.glb` and optional `.usdz`; replacements use new names. The UI and Worker share a conservative root-key pattern. |
-| D18 | Proposed Cloudflare resource names | `mebelux-3d-asset` for R2 and Worker, `mebelux` for Pages are **VERIFY** suggestions only; no account resources or URL were inspected. |
+| D17 | Flat lowercase root asset keys | `kitchen-corner.glb` and `.usdz` at the confirmed Worker bucket root; replacements use new names. The UI and Worker share a conservative root-key pattern. |
+| D18 | Cloudflare model origin | R2 bucket `mebelux-3d-asset`, Worker `mebelux-3d-asset`, and origin `https://mebelux-3d-asset.lunarcreativa.workers.dev` confirmed by user screenshot/URL. Pages project/domain remain **VERIFY**. |
 | D19 | Exact-pinned model viewer | `@google/model-viewer` 4.4.0, dynamically imported after paint and near-viewport observation. |
 | D20 | AR placement | Floor placement, Y-up and origin at floor center; real dimensions require approved model measurements. |
 | D21 | Touch and hero controls | `touch-action: pan-y`; hero showcase does not expose camera zoom; detail model supports interaction. |
 | D22 | Local placeholder model | Generator creates a minimal wiring-only GLB in ignored `public/model/`; no USDZ. It is excluded from the deliverable ZIP. |
 | D23 | 3D gallery marker | Neutral “Model 3D” badge only on projects with a model; currently Mrs. Yati. |
 | D24 | Phase 2 verification | Scripted checks only; no Playwright, screenshot, live Cloudflare, or device checks at user request / unavailable external setup. |
+| D25 | Uploaded Mebelux models | Use the supplied kitchen-corner GLB and USDZ for the Mrs. Yati showcase. Cloudflare currently responds with wildcard CORS; update the deployed Worker to scoped origins before production use. |
 
 ## Appended by agents
 
